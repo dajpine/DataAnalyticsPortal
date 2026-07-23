@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Benton+Sans:wght@400;500&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* ── Stevenson Patriots green & gold palette ── */
+    /* Stevenson Patriots green & gold palette */
     :root {
       --shs-green:        #1E5631;
       --shs-green-dark:   #123D22;
@@ -41,7 +41,6 @@
       flex-direction: column;
     }
 
-    /* ── TOP NAV (matches Tableau Server header height/feel) ── */
     header {
       background: #ffffff;
       border-bottom: 1px solid var(--border);
@@ -109,7 +108,6 @@
       background: var(--surface);
     }
 
-    /* ── HERO BAND ── */
     .hero {
       background: #ffffff;
       border-bottom: 1px solid var(--border);
@@ -161,7 +159,6 @@
       font-weight: 600;
     }
 
-    /* ── MAIN CONTENT ── */
     main {
       flex: 1;
       max-width: 1200px;
@@ -170,7 +167,6 @@
       padding: 32px 32px 64px;
     }
 
-    /* ── FILTER / SEARCH BAR ── */
     .toolbar {
       display: flex;
       align-items: center;
@@ -257,7 +253,6 @@
       white-space: nowrap;
     }
 
-    /* ── SECTION HEADINGS ── */
     .section-label {
       font-size: 11px;
       font-weight: 700;
@@ -269,7 +264,6 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ── CARD GRID ── */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -380,7 +374,6 @@
       transform: translateX(3px);
     }
 
-    /* ── EMPTY / LOADING STATES ── */
     .state-box {
       grid-column: 1 / -1;
       text-align: center;
@@ -397,7 +390,6 @@
       font-size: 15px;
     }
 
-    /* ── ERROR BANNER ── */
     .error-banner {
       display: none;
       background: #fff3cd;
@@ -409,7 +401,6 @@
       margin-bottom: 20px;
     }
 
-    /* ── FOOTER ── */
     footer {
       background: #ffffff;
       border-top: 1px solid var(--border);
@@ -423,7 +414,6 @@
     footer a { color: var(--text-secondary); text-decoration: none; }
     footer a:hover { color: var(--shs-green-dark); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       header { padding: 0 16px; }
       .hero   { padding: 28px 16px; }
@@ -435,12 +425,8 @@
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     HEADER
-═══════════════════════════════════════════ -->
 <header>
   <div class="header-left">
-    <!-- Simple bar-chart SVG icon — Tableau-ish -->
     <svg class="header-logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="3"  y="14" width="5" height="11" rx="1" fill="#C9A227"/>
       <rect x="11" y="8"  width="5" height="17" rx="1" fill="#1E5631"/>
@@ -457,9 +443,6 @@
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════
-     HERO
-═══════════════════════════════════════════ -->
 <div class="hero">
   <div class="hero-inner">
     <h1>SHS <span>Data  Analytics</span> Portal </h1>
@@ -471,16 +454,12 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     MAIN
-═══════════════════════════════════════════ -->
 <main>
 
   <div id="error-banner" class="error-banner">
     ⚠️ Could not load report catalog data. Check that the Google Sheet is published as CSV and the <code>SHEET_CSV_URL</code> is correct.
   </div>
 
-  <!-- Toolbar -->
   <div class="toolbar">
     <div class="search-wrap">
       <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -500,28 +479,18 @@
     <span class="results-count" id="results-count"></span>
   </div>
 
-  <!-- Card area — populated by JS -->
   <div id="card-area"></div>
 
 </main>
 
-<!-- ═══════════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════════ -->
 <footer>
   District 125 Data Analytics Portal &nbsp;·&nbsp;
   <a href="https://tableau.d125.org" target="_blank">Tableau Server</a> &nbsp;·&nbsp;
   <a href="https://ssrs.d125.org/reports" target="_blank">SSRS</a>
 </footer>
 
-<!-- ═══════════════════════════════════════════
-     SCRIPT
-═══════════════════════════════════════════ -->
 <script>
-// ─────────────────────────────────────────────
-//  CONFIGURATION — paste your published Google
-//  Sheet CSV URL here and nothing else changes.
-// ─────────────────────────────────────────────
+// Paste your published Google Sheet CSV URL here.
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTz2FOPpW9h30PJ6vW-Zfe8NPbC-YmOmN2FMSKnjolR1w8FMDhltEsX2JJJJ1937LDjTF6BxBzYWAKR/pub?output=csv';
 
 // Fallback color per source type
@@ -546,9 +515,6 @@ const CATEGORY_ICONS = {
   'default':      '📊',
 };
 
-// ─────────────────────────────────────────────
-//  CSV → array of objects
-// ─────────────────────────────────────────────
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   if (lines.length < 2) return [];
@@ -570,9 +536,6 @@ function parseCSV(text) {
   });
 }
 
-// ─────────────────────────────────────────────
-//  Build URL for a card
-// ─────────────────────────────────────────────
 function buildURL(row) {
   if (row['Custom URL'] && row['Custom URL'].startsWith('http')) {
     return row['Custom URL'];
@@ -590,9 +553,6 @@ function buildURL(row) {
   return `https://tableau.d125.org/#/search?tag=${tag}`;
 }
 
-// ─────────────────────────────────────────────
-//  Render cards
-// ─────────────────────────────────────────────
 let allRows = [];
 let activeSource = 'all';
 let searchTerm = '';
@@ -675,9 +635,6 @@ function render() {
   });
 }
 
-// ─────────────────────────────────────────────
-//  Load data from Google Sheet CSV
-// ─────────────────────────────────────────────
 async function loadData() {
   const area = document.getElementById('card-area');
   area.innerHTML = `
@@ -705,9 +662,6 @@ async function loadData() {
   }
 }
 
-// ─────────────────────────────────────────────
-//  Event listeners
-// ─────────────────────────────────────────────
 document.getElementById('search-input').addEventListener('input', e => {
   searchTerm = e.target.value.toLowerCase().trim();
   render();
@@ -722,9 +676,6 @@ document.querySelectorAll('.filter-btn[data-source]').forEach(btn => {
   });
 });
 
-// ─────────────────────────────────────────────
-//  Boot
-// ─────────────────────────────────────────────
 loadData();
 </script>
 </body>
